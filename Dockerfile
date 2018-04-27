@@ -14,7 +14,7 @@ ENV GLUSTER_REPLICA 2
 
 
 RUN apt-get update && \
-    apt-get install -y glusterfs-server glusterfs-client
+    apt-get install -y glusterfs-server glusterfs-client git
 
 
 RUN mkdir /data
