@@ -1,4 +1,4 @@
-FROM bmaltais/rancher-stack-base
+FROM bmaltais/rancher-stack-base:latest
 # MAINTAINER Sebastien LANGOUREAUX <linuxworkgroup@hotmail.com>
 
 
