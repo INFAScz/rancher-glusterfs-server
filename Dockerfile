@@ -1,5 +1,5 @@
-FROM webcenter/rancher-stack-base:latest
-MAINTAINER Sebastien LANGOUREAUX <linuxworkgroup@hotmail.com>
+FROM ubuntu:14.04
+# MAINTAINER Sebastien LANGOUREAUX <linuxworkgroup@hotmail.com>
 
 
 ENV SERVICE_NAME "gluster"
@@ -13,8 +13,7 @@ ENV GLUSTER_REPLICA 2
 #ENV GLUSTER_QUOTA "10GB"
 
 
-RUN add-apt-repository -y ppa:gluster/glusterfs-3.7 && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y glusterfs-server glusterfs-client
 
 
@@ -22,7 +21,7 @@ RUN mkdir /data
 
 # Install python lib to manage glusterfs
 WORKDIR /usr/src
-RUN git clone https://github.com/disaster37/python-gluster.git
+RUN git clone https://github.com/bernardmaltais/python-gluster.git
 WORKDIR /usr/src/python-gluster
 RUN python setup.py install
 RUN pip install rancher_metadata
