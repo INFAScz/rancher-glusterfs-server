@@ -3,6 +3,7 @@ import os
 from gluster.Gluster import Gluster
 import sys
 import time
+import traceback
 from rancher_metadata import MetadataAPI
 
 __author__ = 'Sebastien LANGOUREAUX'
@@ -54,12 +55,15 @@ class ServiceRun():
       while loop:
         time.sleep(1)
         try:
+            print(str(list_nodes))
             for node in list_nodes.itervalues():
                 gluster = Gluster(node['ip'])
+                print("peer status()")
                 peer_status = gluster.get_peer_manager().status()
-
             loop = False
         except Exception,e:
+            print(traceback.format_exc())
+            print(e.message)
             loop = True
 
 
@@ -121,8 +125,9 @@ class ServiceRun():
     list_containers = {}
     metadata_manager.wait_service_containers()
     list_containers_name = metadata_manager.get_service_containers()
+    print("debug " + str(my_name))
     for container_name in list_containers_name:
-        if container_name != my_name:
+        if container_name != my_name["name"]:
             list_containers[container_name] = {}
             list_containers[container_name]['id'] = metadata_manager.get_container_create_index(container_name)
             list_containers[container_name]['name'] = container_name
@@ -162,13 +167,11 @@ class ServiceRun():
         try:
             self.manage_cluster()
         except Exception,e:
+            print(traceback.format_exc())
             print("Some error appear : " + e.message)
             print("I will try again in 60s")
 
         time.sleep(60)
-
-
-
 
   def manage_cluster(self):
     gluster = Gluster()
@@ -183,7 +186,7 @@ class ServiceRun():
     current_container = self.__get_my_container_info()
 
     # I get all other containers
-    list_containers = self.__get_other_container_in_service(current_container["name"])
+    list_containers = self.__get_other_container_in_service(current_container)
 
     # If I am not on cluster and there are no cluster and I am the master, so I create the gluster
     if (self.__is_already_on_glusterfs() is False) and (self._is_master(current_container, list_containers) is True) and (self.__is_cluster_already_exist(list_containers) is False):
