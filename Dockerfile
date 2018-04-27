@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM bmaltais/rancher-stack-base
 # MAINTAINER Sebastien LANGOUREAUX <linuxworkgroup@hotmail.com>
 
 
@@ -14,7 +14,7 @@ ENV GLUSTER_REPLICA 2
 
 
 RUN apt-get update && \
-    apt-get install -y glusterfs-server glusterfs-client git python-pip
+    apt-get install -y glusterfs-server glusterfs-client
 
 
 RUN mkdir /data
