@@ -85,7 +85,7 @@ class ServiceRun():
             else:
                 raise e
 
-  def __extend_all_volumes(self, list_volumes, transport, stripe, replica, quota, directory, list_nodes):
+  def __extend_all_volumes(self, list_volumes, replica, directory, list_nodes):
     gluster = Gluster()
     volume_manager = gluster.get_volume_manager()
 
@@ -225,7 +225,7 @@ class ServiceRun():
         self.__create_cluster(list_nodes, number_node)
         list_containers = list_nodes
         print("Attempting to extend volumes to added node")
-        self.__extend_all_volumes(self.__list_volumes, self.__transport, self.__stripe, number_node, self.__quota,self.__gluster_directory,list_nodes)
+        self.__extend_all_volumes(self.__list_volumes, number_node, self.__gluster_directory,list_nodes)
 
     # I create all volumes
     if self.__is_already_on_glusterfs() is True:
