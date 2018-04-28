@@ -93,14 +93,15 @@ class ServiceRun():
         try:
             volume_manager.info(volume)
         except Exception,e:
-            #if e.message.find("Volume " + volume +" does not exist") >= 0:
+            if e.message.find("Volume " + volume +" does not exist") == 0:
                 list_bricks = []
                 for node in list_nodes.itervalues():
                     list_bricks.append(node['ip'] + ':' + directory + '/' + volume)
-                volume_manager.extend(volume, list_bricks, replica)
-                print("Volume '" + volume + "' has been extended")
-            #else:
-            #    raise e
+                    volume_manager.extend(volume, list_bricks, replica)
+                    print("Volume '" + volume + "' has been extended")
+                    list_bricks = []
+            else:
+                raise e
 
   def __create_cluster(self, list_nodes, numbers_nodes):
     gluster = Gluster()
