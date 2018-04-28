@@ -85,6 +85,22 @@ class ServiceRun():
             else:
                 raise e
 
+  def __extend_all_volumes(self, list_volumes, transport, stripe, replica, quota, directory, list_nodes):
+    gluster = Gluster()
+    volume_manager = gluster.get_volume_manager()
+
+    for volume in list_volumes:
+        try:
+            volume_manager.info(volume)
+        except Exception,e:
+            #if e.message.find("Volume " + volume +" does not exist") >= 0:
+                list_bricks = []
+                for node in list_nodes.itervalues():
+                    list_bricks.append(node['ip'] + ':' + directory + '/' + volume)
+                volume_manager.extend(volume, list_bricks, replica)
+                print("Volume '" + volume + "' has been extended")
+            #else:
+            #    raise e
 
   def __create_cluster(self, list_nodes, numbers_nodes):
     gluster = Gluster()
@@ -207,6 +223,7 @@ class ServiceRun():
 
         self.__create_cluster(list_nodes, number_node)
         list_containers = list_nodes
+        self.__extend_all_volumes(self.__list_volumes, self.__transport, self.__stripe, number_node, self.__quota,self.__gluster_directory,list_nodes)
 
 
     # I create all volumes
