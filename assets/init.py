@@ -112,9 +112,6 @@ class ServiceRun():
     # I wait all node join the glusterfs before continue
     while(self.__get_numbers_peer() != numbers_nodes):
         time.sleep(1)
-        
-    print("Attempting to extend volumes to added node")
-    self.__extend_all_volumes(self.__list_volumes, self.__transport, self.__stripe, number_node, self.__quota,self.__gluster_directory,list_nodes)
 
   def __get_numbers_peer(self):
     gluster = Gluster()
@@ -226,7 +223,8 @@ class ServiceRun():
 
         self.__create_cluster(list_nodes, number_node)
         list_containers = list_nodes
-
+        print("Attempting to extend volumes to added node")
+        self.__extend_all_volumes(self.__list_volumes, self.__transport, self.__stripe, number_node, self.__quota,self.__gluster_directory,list_nodes)
 
     # I create all volumes
     if self.__is_already_on_glusterfs() is True:
