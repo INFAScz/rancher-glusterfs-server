@@ -93,7 +93,9 @@ class ServiceRun():
         try:
             volume_manager.info(volume)
         except Exception,e:
+            print("Extending '" + volume + "' maybe???")
             if e.message.find("Volume " + volume +" does not exist") >= 0:
+                print("Possible yes???")
                 list_bricks = []
                 for node in list_nodes.itervalues():
                     list_bricks.append(node['ip'] + ':' + directory + '/' + volume)
