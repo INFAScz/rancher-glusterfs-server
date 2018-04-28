@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 RUN mkdir /data
 
-# Install python lib to manage glusterfs
+# Install python lib to manage glusterfs.
 WORKDIR /usr/src
 RUN git clone https://github.com/bernardmaltais/python-gluster.git
 WORKDIR /usr/src/python-gluster
