@@ -2,9 +2,5 @@
 
 /usr/sbin/glusterd -p /var/run/glusterd.pid
 
-# Update git in case the python code was updated
-cd /usr/src/python-gluster
-git pull
-
 python /app/init.py start &
 exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
