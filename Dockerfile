@@ -20,7 +20,8 @@ RUN apt-get update && \
 RUN mkdir /data
 
 # Install python lib to manage glusterfs.
-ADD assets/python-gluster /usr/src/
+RUN mkdir -p /usr/src/python-gluster
+ADD assets/python-gluster /usr/src/python-gluster
 WORKDIR /usr/src/python-gluster
 RUN python setup.py install
 RUN pip install rancher_metadata
